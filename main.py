@@ -1,0 +1,14 @@
+from __future__ import annotations
+
+from island import Island
+from kingdom import Kingdom
+island_0 = Island(population_size=100)
+island_1 = Island(population_size=200)
+island_2 = Island(population_size=300)
+island_3 = Island(population_size=400)
+island_4 = Island(population_size=500)
+islands = [island_0, island_1, island_2, island_3, island_4]
+kingdom = Kingdom(islands)
+
+kingdom.setup_island_order()
+kingdom.print()
