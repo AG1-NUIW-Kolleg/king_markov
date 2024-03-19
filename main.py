@@ -17,5 +17,5 @@ bikini_bottum.print()
 
 markov = KingMarkov(starting_island_id=0)
 markov.visit_island(id=4, kingdom=bikini_bottum)
-markov.log_position()
 bikini_bottum.print()
+markov.identify_next_candidate(kingdom=bikini_bottum)
