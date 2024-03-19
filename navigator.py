@@ -20,19 +20,25 @@ class Navigator:
         following_island_is_candidate = False
         x = random.random()
 
-        if (x > self.P_CHOOSE_FOLLOWING):
+        if (x <= self.P_CHOOSE_FOLLOWING):
             following_island_is_candidate = True
 
         return following_island_is_candidate
 
-    def get_moving_probability(
+    def is_moving(
         self,
         current_population: int,
         candidate_population: int,
-    ):
-        """Determines the probability to which King Markov will go to the
-        candidate island or no"""
+    ) -> bool:
+        """Identifies whether King Markov will move or not by comparing the
+        population of a current and a candidate island"""
 
-        p = min(candidate_population/current_population, 1)
+        p_moving = min(candidate_population/current_population, 1)
 
-        return p
+        is_moving = False
+        x = random.random()
+
+        if (x <= p_moving):
+            is_moving = True
+
+        return is_moving

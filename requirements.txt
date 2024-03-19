@@ -18,5 +18,6 @@ ruamel.yaml.clib==0.2.8
 six==1.16.0
 toml==0.10.2
 tomli==2.0.1
+tqdm==4.66.2
 virtualenv==20.25.1
 wcwidth==0.2.13

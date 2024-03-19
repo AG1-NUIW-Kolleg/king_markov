@@ -9,9 +9,11 @@ class KingMarkov:
     kingdom. He wants to visit an every island in proportion to their
     population size"""
 
+    VERBOSE = False
+
     def __init__(self, starting_island_id: int):
         self._current_island_id = starting_island_id
-        self._next_potential_island_id = 0
+        self._candidate_island_id = 0
 
         self._navigatior = Navigator()
 
@@ -23,26 +25,52 @@ class KingMarkov:
 
         current_island = kingdom.get_island_by_id(self._current_island_id)
         if (is_following_candidate is True):
-            self._next_potential_island_id = current_island.get_following_id()
+            self._candidate_island_id = current_island.get_following_id()
         else:
-            self._next_potential_island_id = current_island.get_preceding_id()
+            self._candidate_island_id = current_island.get_preceding_id()
 
-        self._log_candidate()
+        if self.VERBOSE:
+            self._log_candidate()
 
-    def visit_island(self, id: int, kingdom: Kingdom):
+    def move(self, kingdom: Kingdom):
+        """Moves King Markov to another island with the probability calculated
+        by the navigator"""
+
+        current_island = kingdom.get_island_by_id(self._current_island_id)
+        candidate_island = kingdom.get_island_by_id(self._candidate_island_id)
+
+        current_island_population = current_island.get_population_size()
+        candidate_island_population = candidate_island.get_population_size()
+
+        is_moving = self._navigatior.is_moving(
+            current_population=current_island_population,
+            candidate_population=candidate_island_population,
+        )
+
+        if (is_moving is True):
+            self._visit_island(id=self._candidate_island_id, kingdom=kingdom)
+
+        else:
+            if self.VERBOSE:
+                print(
+                    f'King Markov stayed at Island {self._current_island_id}',
+                )
+
+    def _visit_island(self, id: int, kingdom: Kingdom):
         """Records the visit of King Markov on an island by updating the
         current island id and the islands visit count"""
         self._current_island_id = id
         kingdom.get_island_by_id(id).count_visit()
-        self._log_position()
+        if self.VERBOSE:
+            self._log_position()
 
     def _log_candidate(self):
         """Prints the new potential island"""
         print(
             'King Markov considers moving to Island ' +
-            f'{self._next_potential_island_id}',
+            f'{self._candidate_island_id}',
         )
 
     def _log_position(self):
         """Logs the current position of the king"""
-        print(f'King Markov is on Island {self._current_island_id}')
+        print(f'King Markov moved to Island {self._current_island_id}')
