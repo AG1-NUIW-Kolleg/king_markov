@@ -25,7 +25,7 @@ class Navigator:
 
         return following_island_is_candidate
 
-    def is_moving(
+    def will_move(
         self,
         current_population: int,
         candidate_population: int,
