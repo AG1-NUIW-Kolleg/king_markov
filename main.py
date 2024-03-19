@@ -1,21 +1,27 @@
 from __future__ import annotations
 
+import random
+
 from tqdm.auto import tqdm
 
 from constants import ITERATIONS
+from constants import NUMBER_OF_ISLANDS
 from dev.island import Island
 from dev.king_markov import KingMarkov
 from dev.kingdom import Kingdom
 
-iceland = Island(population_size=100)
-new_zealand = Island(population_size=200)
-madagaskar = Island(population_size=300)
-great_britain = Island(population_size=400)
-australia = Island(population_size=500)
-islands = [iceland, new_zealand, madagaskar, great_britain, australia]
-bikini_bottum = Kingdom(islands)
+islands = []
 
+random.seed(42)
+for i in range(0, NUMBER_OF_ISLANDS):
+    random_population = random.randint(1, 100000)
+    island = Island(population_size=random_population)
+    islands.append(island)
+
+
+bikini_bottum = Kingdom(islands)
 bikini_bottum.setup_island_order()
+bikini_bottum.print()
 
 markov = KingMarkov(kingdom=bikini_bottum, starting_island_id=0)
 
