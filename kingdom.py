@@ -31,17 +31,18 @@ class Kingdom:
         table = pt.PrettyTable(
             field_names=[
                 'island-ID', 'preceding-ID',
-                'following-ID', 'population size',
+                'following-ID', 'population size', 'king visit count',
             ],
         )
-        table.align['island-ID', 'preceding-ID', 'following-ID'] = 'l'
         table.align['population size'] = 'r'
+        table.align['king visit count'] = 'r'
 
         for island in self._islands:
             table.add_row(
                 [
                     island.get_id(), island.get_preceding_id(),
                     island.get_following_id(), island.get_population_size(),
+                    island.get_visit_count(),
                 ],
             )
 

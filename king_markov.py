@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-from island import Island
 from navigator import Navigator
 
 
@@ -9,8 +8,12 @@ class KingMarkov:
     kingdom. He wants to visit an every island in proportion to their
     population size"""
 
-    def __init__(self, starting_island: Island):
-        self._current_island = starting_island
-        self._next_potential_island: Island = Island()
+    def __init__(self, starting_island_id: int):
+        self._current_island_id = starting_island_id
+        self._next_potential_island_id = 0
 
         self._navigatior = Navigator()
+
+    def log_position(self):
+        """Logs the current position of the king"""
+        print(f'King Markov is on Island-ID {self._current_island_id}')

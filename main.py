@@ -1,7 +1,9 @@
 from __future__ import annotations
 
 from island import Island
+from king_markov import KingMarkov
 from kingdom import Kingdom
+
 island_0 = Island(population_size=100)
 island_1 = Island(population_size=200)
 island_2 = Island(population_size=300)
@@ -12,3 +14,6 @@ kingdom = Kingdom(islands)
 
 kingdom.setup_island_order()
 kingdom.print()
+
+markov = KingMarkov(starting_island_id=0)
+markov.log_position()

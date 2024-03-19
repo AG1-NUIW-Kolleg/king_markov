@@ -10,6 +10,8 @@ class Island:
         self._preceding_id = 0
         self._following_id = 0
 
+        self._king_visit_counts = 0
+
     def get_population_size(self) -> int:
         """Returns the population size"""
         return self._population_size
@@ -26,6 +28,10 @@ class Island:
         """Returns the following islands id"""
         return self._following_id
 
+    def get_visit_count(self) -> int:
+        """Returns the king visit count of the island"""
+        return self._king_visit_counts
+
     def set_id(self, id: int):
         """Sets the islands id"""
         self._id = id
@@ -37,3 +43,7 @@ class Island:
     def set_following_id(self, id: int):
         """Sets the following islands id"""
         self._following_id = id
+
+    def count_visit(self):
+        """Counts a visit on the island"""
+        self._king_visit_counts += 1
