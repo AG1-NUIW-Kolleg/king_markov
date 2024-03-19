@@ -11,6 +11,15 @@ class Kingdom:
     def __init__(self, islands: list[Island]):
         self._islands: list[Island] = islands
 
+    def get_island_by_id(self, id: int) -> Island:
+        """Returns the island of the kingdom by its id"""
+        try:
+            island = self._islands[id]
+        except IndexError as exc:
+            raise IndexError(f'Island with id {id} does not exist') from exc
+
+        return island
+
     def setup_island_order(self):
         """Sets up the islands in a circle"""
         last_island_id = len(self._islands) - 1

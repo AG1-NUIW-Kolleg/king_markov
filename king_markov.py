@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from kingdom import Kingdom
 from navigator import Navigator
 
 
@@ -13,6 +14,12 @@ class KingMarkov:
         self._next_potential_island_id = 0
 
         self._navigatior = Navigator()
+
+    def visit_island(self, id: int, kingdom: Kingdom):
+        """Records the visit of King Markov on an island by updating the
+        current island id and the islands visit count"""
+        self._current_island_id = id
+        kingdom.get_island_by_id(id).count_visit()
 
     def log_position(self):
         """Logs the current position of the king"""
