@@ -60,24 +60,21 @@ class Kingdom:
 
     def plot_visits(self, name: str):
         """Plots the visit counts of a kingdom in a histogram"""
-        i = 0
-        populations = []
-        fig, ax = plt.subplots(layout='constrained')
+        fig, axs = plt.subplots(2, 1, layout='constrained')
         for island in self._islands:
 
-            ax.set_xlabel('island ID')
-            ax.set_ylabel('number of visits', color='tab:blue')
+            axs[0].set_xlabel('island ID')
+            axs[0].set_ylabel('number of visits', color='tab:blue')
 
-            ax.bar(
+            axs[0].bar(
                 x=island.get_id(), height=island.get_visit_count(),
                 color='tab:blue',
             )
 
-            populations.append(island.get_population_size())
-            i += 1
-
-        secax = ax.twinx()
-        secax.set_ylabel('population size', color='tab:red')
-        secax.plot(populations, color='tab:red')
+            axs[1].set_ylabel('population size', color='tab:red')
+            axs[1].bar(
+                x=island.get_id(),
+                height=island.get_population_size(), color='tab:red',
+            )
 
         fig.savefig(f'graphics/{name}.png')

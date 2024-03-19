@@ -1,3 +1,3 @@
 from __future__ import annotations
-ITERATIONS = 1000000
+ITERATIONS = 100000
 VERBOSE = False
