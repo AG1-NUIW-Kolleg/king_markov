@@ -1,3 +1,4 @@
 from __future__ import annotations
-ITERATIONS = 100000
+ITERATIONS = 1e7
 VERBOSE = False
+NUMBER_OF_ISLANDS = 10

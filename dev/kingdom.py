@@ -71,6 +71,7 @@ class Kingdom:
                 color='tab:blue',
             )
 
+            axs[1].set_xlabel('island ID')
             axs[1].set_ylabel('population size', color='tab:red')
             axs[1].bar(
                 x=island.get_id(),
