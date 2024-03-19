@@ -1,15 +1,14 @@
 from __future__ import annotations
 
-from kingdom import Kingdom
-from navigator import Navigator
+from constants import VERBOSE
+from dev.kingdom import Kingdom
+from dev.navigator import Navigator
 
 
 class KingMarkov:
     """Represents King Markov, who is visiting different island of his
     kingdom. He wants to visit an every island in proportion to their
     population size"""
-
-    VERBOSE = False
 
     def __init__(self, kingdom: Kingdom, starting_island_id: int):
         self._kingdom = kingdom
@@ -33,7 +32,7 @@ class KingMarkov:
         else:
             self._candidate_island_id = current_island.get_preceding_id()
 
-        if self.VERBOSE:
+        if VERBOSE:
             self._log_candidate()
 
     def move_or_stay(self):
@@ -65,7 +64,7 @@ class KingMarkov:
         """Records the stay of King Markov on an isyland by updating the visit
         count of the current island"""
         self._kingdom.get_island_by_id(self._current_island_id).count_visit()
-        if self.VERBOSE:
+        if VERBOSE:
             print(
                 f'King Markov stayed at Island {self._current_island_id}',
             )
@@ -75,7 +74,7 @@ class KingMarkov:
         current island id and the islands visit count"""
         self._current_island_id = id
         self._kingdom.get_island_by_id(id).count_visit()
-        if self.VERBOSE:
+        if VERBOSE:
             print(f'King Markov moved to Island {self._current_island_id}')
 
     def _log_candidate(self):

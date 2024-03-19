@@ -1,8 +1,9 @@
 from __future__ import annotations
 
+import matplotlib.pyplot as plt
 import prettytable as pt
 
-from island import Island
+from dev.island import Island
 
 
 class Kingdom:
@@ -56,3 +57,27 @@ class Kingdom:
             )
 
         print(table)
+
+    def plot_visits(self, name: str):
+        """Plots the visit counts of a kingdom in a histogram"""
+        i = 0
+        populations = []
+        fig, ax = plt.subplots(layout='constrained')
+        for island in self._islands:
+
+            ax.set_xlabel('island ID')
+            ax.set_ylabel('number of visits', color='tab:blue')
+
+            ax.bar(
+                x=island.get_id(), height=island.get_visit_count(),
+                color='tab:blue',
+            )
+
+            populations.append(island.get_population_size())
+            i += 1
+
+        secax = ax.twinx()
+        secax.set_ylabel('population size', color='tab:red')
+        secax.plot(populations, color='tab:red')
+
+        fig.savefig(f'graphics/{name}.png')

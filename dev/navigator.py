@@ -2,6 +2,8 @@ from __future__ import annotations
 
 import random
 
+from constants import VERBOSE
+
 
 class Navigator:
     """Represents a navigator deciding whether to move one island forward or
@@ -34,6 +36,9 @@ class Navigator:
         population of a current and a candidate island"""
 
         p_moving = min(candidate_population/current_population, 1)
+
+        if VERBOSE:
+            print(f'p for moving to the candidate island: {p_moving}')
 
         is_moving = False
         x = random.random()
