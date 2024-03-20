@@ -1,36 +1,34 @@
 from __future__ import annotations
 
-import random
-
 from tqdm.auto import tqdm
 
 from constants import ITERATIONS
-from constants import NUMBER_OF_ISLANDS
 from dev.island import Island
 from dev.king_markov import KingMarkov
 from dev.kingdom import Kingdom
 
-islands = []
+working_groups = [
+    Island(population_size=5),
+    Island(population_size=1),
+    Island(population_size=2),
+    Island(population_size=1),
+    Island(population_size=2),
+]
 
-random.seed(42)
-for i in range(0, NUMBER_OF_ISLANDS):
-    random_population = random.randint(1, 100000)
-    island = Island(population_size=random_population)
-    islands.append(island)
+stiftung = Kingdom(working_groups)
+stiftung.setup_island_order()
+stiftung.print()
 
-
-bikini_bottum = Kingdom(islands)
-bikini_bottum.setup_island_order()
-bikini_bottum.print()
-
-markov = KingMarkov(kingdom=bikini_bottum, starting_island_id=0)
+richer_und_maltitz = KingMarkov(kingdom=stiftung, starting_island_id=4)
+name = 'Richters and Maltitz'
 
 for i in tqdm(
     range(0, int(ITERATIONS)),
-    desc='King Markov is traveling', ncols=80,
+    desc=f'{name} are traveling...', ncols=120,
 ):
-    markov.identify_next_candidate()
-    markov.move_or_stay()
+    richer_und_maltitz.identify_next_candidate()
+    richer_und_maltitz.move_or_stay()
+    if (i % 10 == 0):
+        stiftung.plot_visits(name=f'state_{i}', iteration=i)
 
-bikini_bottum.print()
-bikini_bottum.plot_visits(name='island_visits')
+stiftung.print()

@@ -58,12 +58,17 @@ class Kingdom:
 
         print(table)
 
-    def plot_visits(self, name: str):
+    def plot_visits(self, name: str, iteration: int):
         """Plots the visit counts of a kingdom in a histogram"""
         fig, axs = plt.subplots(2, 1, layout='constrained')
         for island in self._islands:
 
-            axs[0].set_xlabel('island ID')
+            for ax in axs:
+                ax.grid(visible='true')
+                ax.set_axisbelow(True)
+                ax.set_xticks(range(0, 5), [1, 2, 3, 4, 5])
+
+            axs[0].set_xlabel('Working Group')
             axs[0].set_ylabel('number of visits', color='tab:blue')
 
             axs[0].bar(
@@ -71,11 +76,12 @@ class Kingdom:
                 color='tab:blue',
             )
 
-            axs[1].set_xlabel('island ID')
-            axs[1].set_ylabel('population size', color='tab:red')
+            axs[1].set_xlabel('Working Group')
+            axs[1].set_ylabel('# publications', color='tab:red')
             axs[1].bar(
                 x=island.get_id(),
                 height=island.get_population_size(), color='tab:red',
             )
+            fig.suptitle(f'days spent: {iteration+1}')
 
         fig.savefig(f'graphics/{name}.png')
