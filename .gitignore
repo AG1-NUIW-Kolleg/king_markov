@@ -1,5 +1,7 @@
 *.pre-commit-config.yaml
 *.png
+.idea/
+.king-markov-venv/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
