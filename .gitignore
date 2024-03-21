@@ -1,7 +1,14 @@
+#ignore Jupyter Notebooks
 *.ipynb
+
+# Ignore pre-commit hooks
 *.pre-commit-config.yaml
+
+# Ignore grapics
 *.png
 *.gif
+
+# misc
 .idea/
 .king-markov-venv/
 

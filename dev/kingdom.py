@@ -8,6 +8,8 @@ import prettytable as pt
 
 from constants import GENERATE_GIF
 from constants import ITERATIONS
+from constants import MAX_GIF_LEN
+from constants import NUMBER_OF_ISLANDS
 from constants import SAVE_DIR
 from dev.island import Island
 
@@ -66,38 +68,44 @@ class Kingdom:
 
     def plot_visits(self, name: str, iteration: int):
         """Plots the visit counts of a kingdom in a histogram"""
-        fig, axs = plt.subplots(2, 1, layout='constrained')
-        for island in self._islands:
-
-            for ax in axs:
-                ax.grid(visible='true')
-                ax.set_axisbelow(True)
-                ax.set_xlabel('Island-ID')
-
-            axs[0].set_ylabel('# visits', color='tab:blue')
-            axs[0].bar(
-                x=island.get_id(), height=island.get_visit_count(),
-                color='tab:blue',
+        if (GENERATE_GIF is True and ITERATIONS > MAX_GIF_LEN):
+            raise ValueError(
+                'Travel loop cancelled. Too many frames.' +
+                '\nChoose smaller number of iterations.',
             )
-
-            axs[1].set_ylabel('population size', color='tab:red')
-            axs[1].bar(
-                x=island.get_id(),
-                height=island.get_population_size(), color='tab:red',
-            )
-            fig.suptitle(f'iteration: {iteration}')
-            plt.close(fig)
-
-        if (GENERATE_GIF is True):
-            if (os.path.exists(f'{SAVE_DIR}temp') is False):
-                os.makedirs(f'{SAVE_DIR}temp')
-            fig.savefig(f'{SAVE_DIR}temp/{name}.png', bbox_inches='tight')
         else:
-            fig.savefig(f'{SAVE_DIR}plots/{name}.png', bbox_inches='tight')
+            fig, axs = plt.subplots(2, 1, layout='constrained')
+            for island in self._islands:
+
+                for ax in axs:
+                    ax.grid(visible='true')
+                    ax.set_axisbelow(True)
+                    ax.set_xlabel('Island-ID')
+                    ax.set_xticks(range(0, NUMBER_OF_ISLANDS))
+
+                axs[0].set_ylabel('# visits', color='tab:blue')
+                axs[0].bar(
+                    x=island.get_id(), height=island.get_visit_count(),
+                    color='tab:blue',
+                )
+
+                axs[1].set_ylabel('population size', color='tab:red')
+                axs[1].bar(
+                    x=island.get_id(),
+                    height=island.get_population_size(), color='tab:red',
+                )
+                fig.suptitle(f'iteration: {int(iteration)}')
+                plt.close(fig)
+
+            if (GENERATE_GIF is True):
+                if (os.path.exists(f'{SAVE_DIR}temp') is False):
+                    os.makedirs(f'{SAVE_DIR}temp')
+                fig.savefig(f'{SAVE_DIR}temp/{name}.png', bbox_inches='tight')
+            else:
+                fig.savefig(f'{SAVE_DIR}plots/{name}.png', bbox_inches='tight')
 
     def generate_gif(self, title: str):
         """Generates a GIF based on the saved frames in graphics/"""
-
         with imageio.get_writer(
             f'{SAVE_DIR}gifs/{title}.gif',
             mode='I',

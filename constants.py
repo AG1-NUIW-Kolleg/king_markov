@@ -1,6 +1,10 @@
 from __future__ import annotations
-ITERATIONS = 100
+ITERATIONS = int(1e6)
+NUMBER_OF_ISLANDS = 10
+
+# if False, plot will be generated
+GENERATE_GIF = False
 VERBOSE = False
-GENERATE_GIF = True
 
 SAVE_DIR = 'graphics/'
+MAX_GIF_LEN = 250
