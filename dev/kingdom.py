@@ -70,26 +70,25 @@ class Kingdom:
                 ax.grid(visible='true')
                 ax.set_axisbelow(True)
                 ax.set_xticks(range(0, 5), [1, 2, 3, 4, 5])
+                ax.set_xlabel('Arbeitsgruppe')
 
-            axs[0].set_xlabel('Working Group')
-            axs[0].set_ylabel('number of visits', color='tab:blue')
-
+            axs[0].set_ylim(0, 50)
+            axs[0].set_ylabel('# Besuche', color='tab:blue')
             axs[0].bar(
                 x=island.get_id(), height=island.get_visit_count(),
                 color='tab:blue',
             )
 
-            axs[1].set_xlabel('Working Group')
-            axs[1].set_ylabel('# publications', color='tab:red')
-            axs[1].hist(
-                x=island.get_population_size(),
-                bins=range(0, 5),
-            )
-            # axs[1].bar(
-            #     x=island.get_id(),
-            #     height=island.get_population_size(), color='tab:red',
+            axs[1].set_ylabel('# Publikationen', color='tab:red')
+            # axs[1].hist(
+            #     x=island.get_population_size(),
+            #     bins=range(0, 5),
             # )
-            fig.suptitle(f'days spent: {iteration+1}')
+            axs[1].bar(
+                x=island.get_id(),
+                height=island.get_population_size(), color='tab:red',
+            )
+            fig.suptitle(f'verbrachte Zeit [h]: {iteration+1}')
             plt.close(fig)
 
         fig.savefig(f'{SAVE_DIR}{name}.png', bbox_inches='tight')
