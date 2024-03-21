@@ -1,3 +1,4 @@
+*.ipynb
 *.pre-commit-config.yaml
 *.png
 .idea/

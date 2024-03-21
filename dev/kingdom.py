@@ -1,8 +1,11 @@
 from __future__ import annotations
 
+import imageio
 import matplotlib.pyplot as plt
 import prettytable as pt
 
+from constants import ITERATIONS
+from constants import SAVE_DIR
 from dev.island import Island
 
 
@@ -78,10 +81,32 @@ class Kingdom:
 
             axs[1].set_xlabel('Working Group')
             axs[1].set_ylabel('# publications', color='tab:red')
-            axs[1].bar(
-                x=island.get_id(),
-                height=island.get_population_size(), color='tab:red',
+            axs[1].hist(
+                x=island.get_population_size(),
+                bins=range(0, 5),
             )
+            # axs[1].bar(
+            #     x=island.get_id(),
+            #     height=island.get_population_size(), color='tab:red',
+            # )
             fig.suptitle(f'days spent: {iteration+1}')
+            plt.close(fig)
 
-        fig.savefig(f'graphics/{name}.png')
+        fig.savefig(f'{SAVE_DIR}{name}.png', bbox_inches='tight')
+
+    def generate_gif(self, title: str):
+        """Generates a GIF based on the saved frames in graphics/"""
+        with imageio.get_writer(
+            f'{SAVE_DIR}gifs/{title}.gif',
+            mode='I',
+            fps=5,
+        ) as writer:
+            for i in range(0, ITERATIONS):
+                frame_filename = self._get_filename(iteration=i)
+                image = imageio.imread(frame_filename)
+                writer.append_data(image)
+
+    def _get_filename(self, iteration: int) -> str:
+        """Returns the corresponding filename of a state"""
+        save_filename = f'{SAVE_DIR}state_{iteration}.png'
+        return save_filename

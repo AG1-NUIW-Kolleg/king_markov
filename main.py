@@ -28,7 +28,7 @@ for i in tqdm(
 ):
     richer_und_maltitz.identify_next_candidate()
     richer_und_maltitz.move_or_stay()
-    if (i % 10 == 0):
-        stiftung.plot_visits(name=f'state_{i}', iteration=i)
+    stiftung.plot_visits(name=f'state_{i}', iteration=i)
 
+stiftung.generate_gif(title='first_gif')
 stiftung.print()
