@@ -72,21 +72,20 @@ class Kingdom:
             for ax in axs:
                 ax.grid(visible='true')
                 ax.set_axisbelow(True)
-                ax.set_xticks(range(0, 5), [1, 2, 3, 4, 5])
                 ax.set_xlabel('Island-ID')
 
-            axs[0].set_ylabel('# Besuche', color='tab:blue')
+            axs[0].set_ylabel('# visits', color='tab:blue')
             axs[0].bar(
                 x=island.get_id(), height=island.get_visit_count(),
                 color='tab:blue',
             )
 
-            axs[1].set_ylabel('# Publikationen', color='tab:red')
+            axs[1].set_ylabel('population size', color='tab:red')
             axs[1].bar(
                 x=island.get_id(),
                 height=island.get_population_size(), color='tab:red',
             )
-            fig.suptitle(f'verbrachte Zeit [h]: {iteration+1}')
+            fig.suptitle(f'iteration: {iteration}')
             plt.close(fig)
 
         if (GENERATE_GIF is True):
@@ -115,7 +114,7 @@ class Kingdom:
         if (self._is_temp_folder_empty()):
             os.rmdir(f'{SAVE_DIR}temp')
         else:
-            raise Exception(f'{SAVE_DIR}temp folder is not empty')
+            raise FileNotFoundError(f'{SAVE_DIR}temp folder is not empty')
 
     def _is_temp_folder_empty(self) -> bool:
         """Returns whether the SAVE_DIR/temp folder is empty"""

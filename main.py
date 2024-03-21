@@ -8,7 +8,7 @@ from dev.island import Island
 from dev.king_markov import KingMarkov
 from dev.kingdom import Kingdom
 
-working_groups = [
+islands = [
     Island(population_size=5),
     Island(population_size=1),
     Island(population_size=2),
@@ -16,7 +16,7 @@ working_groups = [
     Island(population_size=2),
 ]
 
-kingdom = Kingdom(working_groups)
+kingdom = Kingdom(islands)
 kingdom.setup_island_order()
 kingdom.print()
 
