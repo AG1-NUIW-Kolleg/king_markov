@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from tqdm.auto import tqdm
 
+from constants import GENERATE_GIF
 from constants import ITERATIONS
 from dev.island import Island
 from dev.king_markov import KingMarkov
@@ -15,20 +16,24 @@ working_groups = [
     Island(population_size=2),
 ]
 
-stiftung = Kingdom(working_groups)
-stiftung.setup_island_order()
-stiftung.print()
+kingdom = Kingdom(working_groups)
+kingdom.setup_island_order()
+kingdom.print()
 
-richer_und_maltitz = KingMarkov(kingdom=stiftung, starting_island_id=4)
-name = 'Richters and Maltitz'
+king_markov = KingMarkov(kingdom=kingdom, starting_island_id=3)
+name = 'Markov'
 
 for i in tqdm(
     range(0, int(ITERATIONS)),
-    desc=f'{name} are traveling...', ncols=120,
+    desc=f'{name} is traveling...', ncols=100,
 ):
-    richer_und_maltitz.identify_next_candidate()
-    richer_und_maltitz.move_or_stay()
-    stiftung.plot_visits(name=f'state_{i}', iteration=i)
+    if (GENERATE_GIF is True):
+        kingdom.plot_visits(name=f'state_{i}', iteration=i)
+    king_markov.identify_next_candidate()
+    king_markov.move_or_stay()
 
-stiftung.generate_gif(title='first_gif')
-stiftung.print()
+if (GENERATE_GIF is True):
+    kingdom.generate_gif(title='trip')
+else:
+    kingdom.plot_visits(name='visits', iteration=ITERATIONS)
+kingdom.print()

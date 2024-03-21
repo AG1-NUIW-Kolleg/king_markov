@@ -1,9 +1,12 @@
 from __future__ import annotations
 
+import os
+
 import imageio
 import matplotlib.pyplot as plt
 import prettytable as pt
 
+from constants import GENERATE_GIF
 from constants import ITERATIONS
 from constants import SAVE_DIR
 from dev.island import Island
@@ -70,9 +73,8 @@ class Kingdom:
                 ax.grid(visible='true')
                 ax.set_axisbelow(True)
                 ax.set_xticks(range(0, 5), [1, 2, 3, 4, 5])
-                ax.set_xlabel('Arbeitsgruppe')
+                ax.set_xlabel('Island-ID')
 
-            axs[0].set_ylim(0, 50)
             axs[0].set_ylabel('# Besuche', color='tab:blue')
             axs[0].bar(
                 x=island.get_id(), height=island.get_visit_count(),
@@ -80,10 +82,6 @@ class Kingdom:
             )
 
             axs[1].set_ylabel('# Publikationen', color='tab:red')
-            # axs[1].hist(
-            #     x=island.get_population_size(),
-            #     bins=range(0, 5),
-            # )
             axs[1].bar(
                 x=island.get_id(),
                 height=island.get_population_size(), color='tab:red',
@@ -91,10 +89,16 @@ class Kingdom:
             fig.suptitle(f'verbrachte Zeit [h]: {iteration+1}')
             plt.close(fig)
 
-        fig.savefig(f'{SAVE_DIR}{name}.png', bbox_inches='tight')
+        if (GENERATE_GIF is True):
+            if (os.path.exists(f'{SAVE_DIR}temp') is False):
+                os.makedirs(f'{SAVE_DIR}temp')
+            fig.savefig(f'{SAVE_DIR}temp/{name}.png', bbox_inches='tight')
+        else:
+            fig.savefig(f'{SAVE_DIR}plots/{name}.png', bbox_inches='tight')
 
     def generate_gif(self, title: str):
         """Generates a GIF based on the saved frames in graphics/"""
+
         with imageio.get_writer(
             f'{SAVE_DIR}gifs/{title}.gif',
             mode='I',
@@ -105,7 +109,34 @@ class Kingdom:
                 image = imageio.imread(frame_filename)
                 writer.append_data(image)
 
+                if os.path.exists(frame_filename):
+                    os.remove(frame_filename)
+
+        if (self._is_temp_folder_empty()):
+            os.rmdir(f'{SAVE_DIR}temp')
+        else:
+            raise Exception(f'{SAVE_DIR}temp folder is not empty')
+
+    def _is_temp_folder_empty(self) -> bool:
+        """Returns whether the SAVE_DIR/temp folder is empty"""
+        if (self._does_temp_folder_exist()):
+            folder_list = os.listdir(f'{SAVE_DIR}temp')
+            folder_len = len(folder_list)
+            is_empty = False
+            if (folder_len == 0):
+                is_empty = True
+            return is_empty
+        else:
+            raise FileNotFoundError(f'{SAVE_DIR}temp does not exist')
+
+    def _does_temp_folder_exist(self) -> bool:
+        """Returns whether the graphics/temp folder exists"""
+        does_exist = False
+        if (os.path.exists(f'{SAVE_DIR}temp')):
+            does_exist = True
+        return does_exist
+
     def _get_filename(self, iteration: int) -> str:
         """Returns the corresponding filename of a state"""
-        save_filename = f'{SAVE_DIR}state_{iteration}.png'
+        save_filename = f'{SAVE_DIR}temp/state_{iteration}.png'
         return save_filename

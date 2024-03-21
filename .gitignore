@@ -1,6 +1,7 @@
 *.ipynb
 *.pre-commit-config.yaml
 *.png
+*.gif
 .idea/
 .king-markov-venv/
 

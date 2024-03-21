@@ -18,6 +18,11 @@ class KingMarkov:
 
         self._navigatior = Navigator()
 
+        current_island = self._kingdom.get_island_by_id(
+            self._current_island_id,
+        )
+        current_island.count_visit()
+
     def identify_next_candidate(self):
         """Identifies the next candidate with the help of the navigator"""
         is_following_candidate = (
